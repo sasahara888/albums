@@ -36,4 +36,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    /**
+     * 
+     */
+    public function loadRelationshipCounts()
+    {
+        $this->loadCount('albums');
+    }
+    
+    /**
+     * このユーザが所有するアルバム
+     */
+    public function albums()
+    {
+        return $this->hasMany(Album::class);
+    }
 }
