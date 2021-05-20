@@ -2,6 +2,10 @@
 
 return [
 
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
+    
+    'log' => 'daily',
+    
     /*
     |--------------------------------------------------------------------------
     | Application Name
