@@ -14,6 +14,11 @@ class AlbumsController extends Controller
             
             $albums = $user->albums()->orderBy('created_at', 'desc')->paginate(10);
             
+            // 関連するモデルの件数をロード
+            foreach ($albums as $album) {
+                $album->loadRelationshipCounts();
+            }
+
             $data = [
                 'user' => $user,
                 'albums' => $albums,
@@ -58,12 +63,12 @@ class AlbumsController extends Controller
         $album = \App\Album::findOrFail($id);
         
         // アルバムに含まれるアイテムを取得
-        $albumItems = $album->albumitems()->orderBy('created_at', 'asc')->paginate(10);
+        $albumitems = $album->albumitems()->orderBy('created_at', 'asc')->paginate(9);
         
         // アルバム詳細ビューを表示
         return view('albums.show', [
            'album' => $album, 
-           'albumitems' => $albumItems,
+           'albumitems' => $albumitems,
         ]);
     }
     
@@ -93,9 +98,7 @@ class AlbumsController extends Controller
         }
         
         // 前のURLへリダイレクト
-        return view('albums.show', [
-           'album' => $album, 
-        ]);
+        return redirect('/');
     }
     
     public function destroy($id)

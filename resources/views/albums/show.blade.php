@@ -2,41 +2,41 @@
 
 @section('content')
 
-    <h1>「{{ $album->name }}」</h1>
-    
-    <table class="table table-bordered">
-        <tr>
-            <th>日付</th>
-            <td>{{ $album->date }}</td>
-        </tr>
-        <tr>
-            <th>メモ</th>
-            <td>{{ $album->memo }}</td>
-        </tr>
-    </table>
-    
-    {{-- アルバム編集ページへのリンク --}}
-    {!! link_to_route('albums.edit', '編集する', ['album' => $album->id], ['class' => 'btn btn-light']) !!}
-    
-    {{-- アルバム削除フォーム --}}
-    {!! Form::model($album, ['route' => ['albums.destroy', $album->id], 'method' => 'delete']) !!}
-        {!! Form::submit('削除する', ['class' => 'btn btn-danger']) !!}
-    {!! Form::close() !!}
+    <div class="col-sm-8 offset-sm-2">
+        <div class="card bg-dark text-white">
+            <img class="card-img img-fluid" src="/image/album_title.jpeg" alt="title" style="opacity: 0.6;">
+            <div class="card-img-overlay">
+                <h1 class="card-title text-center" style="padding-top: 150px;">「{{ $album->name }}」</h1>
+                <p class="card-text text-center">{{ $album->date }}</p>
+            </div>
+            
+        </div>
+        <h5 class="text-center" style="padding-top: 10px; padding-bottom:30px;">{{ $album->memo }}</h5>
+    </div>
     
     {{--  --}}
-    {!! link_to_route('albumitems.create', '追加する', ['album' => $album->id], ['class' => 'btn btn-primary']) !!}
+    <div class="text-center">
+        {!! link_to_route('albumitems.create', '写真を追加する', ['album' => $album->id], ['class' => 'btn btn-primary']) !!}
+    </div>
     
     @if (count($albumitems) > 0)
-    <ul class="list-unstyled">
+        <div class="row" style="padding-top: 20px;">
         @foreach ($albumitems as $albumitem)
-            <tr>
-                {{-- <td>{!! link_to_route('albums.show', $album->name, ['album' => $album->id]) !!}</td> --}}
-                <td>{{ $albumitem->id }}</td>
-                <td>{{ $albumitem->file_path }}</td>
-                <td>{{ $albumitem->memo }}</td>
-            </tr>
+            <div class="col-sm-4"  style="padding-bottom: 20px;">
+                <div class="card">
+                    <h5 class="card-header">photo</h5>
+                    <img src="/storage/album_covers/{{$albumitem->file_path}}" class="card-img-top" alt="image">
+                    <div class="card-body">
+                        <p class="card-text">{{$albumitem->memo}}</p>
+                        {{-- アルバム削除フォーム --}}
+                        {!! Form::model($album, ['route' => ['albumitems.destroy', $albumitem->id], 'method' => 'delete']) !!}
+                            {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
         @endforeach
-    </ul>
+        </div>
     {{-- ページネーションリンク --}}
     {{ $albumitems->links() }}
     @endif

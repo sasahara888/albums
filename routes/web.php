@@ -26,12 +26,13 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('users', 'UsersController', ['only' => ['show']]); 
+    Route::resource('users', 'UsersController', ['only' => ['show', 'edit', 'update']]); 
     
     Route::resource('albums', 'AlbumsController');
 
     Route::get('albumitems', 'AlbumItemsController@index')->name('albumitems.index');
     Route::get('albumitems/create', 'AlbumItemsController@create')->name('albumitems.create');
-    Route::post('alblumitems', 'AlbumItemsController@store')->name('albumitems.store');
+    Route::post('albumitems', 'AlbumItemsController@store')->name('albumitems.store');
+    Route::delete('albumitems/{id}', 'AlbumItemsController@destroy')->name('albumitems.destroy');
 });
 

@@ -3,9 +3,9 @@
 @section('content')
     @if (Auth::check())
         <div class="text-center">
-            {{ Auth::user()->name }}さんのアルバム
+            <h1>{{ Auth::user()->name }}さんのアルバム</h1>
         </div>
-        <div class="text-center">
+        <div class="text-center" style="padding: 40px;">
             {!! link_to_route('albums.create', 'アルバムを追加する', [], ['class' => 'btn btn-primary']) !!}
         </div>
         <div class="row">
